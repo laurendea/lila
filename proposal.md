@@ -1,45 +1,43 @@
-# lila
+# Lila
 
 ## A meditation and gratitude tracker.
+
 An app that allows a user to log their daily meditation and gratude journals. The app allows them to view, edit, and delete post from previous dates.
 
 ## Wire Frames
 
 **Initial Landing View**
 
-![image]()
+![image](photos/homescreen.png)
 
 **Calendar Option View**
 
-![image]()
+![image](photos/chooseaday.png)
 
 **Meditation or Gratitude View**
 
-![image]()
-
-**Previous Entries View**
-
-![image]()
-
-**Meditation View**
-
-![image]()
-
-**Edit Meditation View**
-
-![image]()
+![image](photos/chooseplayoption.png)
 
 **Gratitude View**
 
-![image]()
+![image](photos/submitgratitude.png)
+
+**Meditation View**
+
+![image](photos/submitmeditation.png)
+
+**Previous Entries View**
+
+![image](photos/viewentries.png)
 
 **Edit Gratitude View**
 
-![image]()
+![image](photos/editgratiudeentry.png)
+![image](photos/editordeletegratitudeentry.png)
 
 **Calendar Option View**
 
-![image]()
+![image](photos/chooseaday.png)
 
 ## User Stories
 
@@ -54,6 +52,7 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 - As a user, I want to view a button for the home screen on every page, so that i can go back to my options.
 
 #### Stretch Goals
+
 - As a user, I want to see a glowing sphere on the home page, journal and the meditation entries, so that I can have a nice visual effect.
 - As a user, I want to use a timer for my meditation journal, so that I can time my session right there.
 - As a user, I want to play relaxing music while i create a meditation or gratitude entry, so that I can be immersed into what i'm doing.
@@ -61,5 +60,16 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 - As a user, I want to be able to create a sleep entry, so that I can track my sleeping patterns. (view, edit, and delete them)
 - As a user, I want to be able to create a acts of service entry, so that I can track my them. (view, edit, and delete them and an optional random act service will be generated on the page for that day)
 
-
-
+| Method | Route                  | Description                                          | Action | Redirect/Response                  |
+| ------ | ---------------------- | ---------------------------------------------------- | ------ | ---------------------------------- |
+| GET    | /calendar              | Retrieves current date or date range for calendar    | -      | res.render('calendar/index')       |
+| GET    | /log-types             | Retrieves list of available log types                | -      | res.render('log-types/index')      |
+| POST   | /gratitude-logs        | Creates a new gratitude log entry for selected date  | create | res.redirect('/whereverYouWant')   |
+| GET    | /gratitude-logs/:date  | Retrieves gratitude log entry for specific date      | show   | res.render('gratitude-logs/show')  |
+| PUT    | /gratitude-logs/:date  | Updates gratitude log entry for specific date        | update | res.redirect('/whereverYouWant')   |
+| DELETE | /gratitude-logs/:date  | Deletes gratitude log entry for specific date        | delete | res.redirect('/whereverYouWant')   |
+| POST   | /meditation-logs       | Creates a new meditation log entry for selected date | create | res.redirect('/whereverYouWant')   |
+| GET    | /meditation-logs/:date | Retrieves meditation log entry for specific date     | show   | res.render('meditation-logs/show') |
+| PUT    | /meditation-logs/:date | Updates meditation log entry for specific date       | update | res.redirect('/whereverYouWant')   |
+| DELETE | /meditation-logs/:date | Deletes meditation log entry for specific date       | delete | res.redirect('/whereverYouWant')   |
+| GET    | /home                  | Retrieves the home screen with options               | -      | res.render('home/index')           |
