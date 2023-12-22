@@ -1,6 +1,6 @@
 # Lila
 
-## A meditation and gratitude tracker.
+## A Meditation and Gratitude Tracker.
 
 An app that allows a user to log their daily meditation and gratude journals. The app allows them to view, edit, and delete post from previous dates.
 
