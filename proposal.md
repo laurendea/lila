@@ -24,16 +24,16 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 
 **Gratitude View**
 
-![image](photos/submitgratitude.png)
+![image](photos/creategratentry.png)
 
 **Meditation View**
 
-![image](photos/submitmeditation.png)
+![image](photos/createmedientry.png)
 
 **Edit Gratitude View**
 
 ![image](photos/editordeletegratitudeentry.png)
-![image](photos/editgratiudeentry.png)
+![image](photos/editgradentry.png)
 
 **Return to Create Gratitude Entries View**
 
