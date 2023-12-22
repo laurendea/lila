@@ -4,19 +4,23 @@
 
 An app that allows a user to log their daily meditation and gratude journals. The app allows them to view, edit, and delete post from previous dates.
 
+## ERD 
+
+![image](photos/lilaERD.jpeg)
+
 ## Wire Frames
 
 **Initial Landing View**
 
 ![image](photos/homescreen.png)
 
-**Calendar Option View**
+**Choose Meditation or Gratitude View**
 
-![image](photos/chooseaday.png)
+![image](photos/chooseoption.png)
 
-**Meditation or Gratitude View**
+**Previous or Create Entries View**
 
-![image](photos/chooseplayoption.png)
+![image](photos/entriesandviewgratitude.png)
 
 **Gratitude View**
 
@@ -26,25 +30,25 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 
 ![image](photos/submitmeditation.png)
 
-**Previous Entries View**
-
-![image](photos/viewentries.png)
-
 **Edit Gratitude View**
 
-![image](photos/editgratiudeentry.png)
 ![image](photos/editordeletegratitudeentry.png)
+![image](photos/editgratiudeentry.png)
 
-**Calendar Option View**
+**Return to Create Gratitude Entries View**
 
-![image](photos/chooseaday.png)
+![image](photos/entriesandviewgratitude.png)
+
+
+**Return to Option View**
+
+![image](photos/chooseoption.png)
 
 ## User Stories
 
 #### MVP Goals
 
-- As a user, I want click the calendar to select a date, so that I can view or set the date of entries.
-- As a user, I want to choose between meditation log or gratitude log, so that i can view or create a new entry for that day.
+- As a user, I want to choose either meditation or gratitude, so that I can view or create entries.
 - As a user, I want to write my gratitude in the text box, so that its logged for that day.
 - As a user, I want to view my gratitude entry for a specific day, so that I can view, edit, or delete it.
 - As a user, I want to write my start, end, and notes of a meditation session, so that I can log it for that day.
@@ -60,16 +64,17 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 - As a user, I want to be able to create a sleep entry, so that I can track my sleeping patterns. (view, edit, and delete them)
 - As a user, I want to be able to create a acts of service entry, so that I can track my them. (view, edit, and delete them and an optional random act service will be generated on the page for that day)
 
-| Method | Route                  | Description                                          | Action | Redirect/Response                  |
-| ------ | ---------------------- | ---------------------------------------------------- | ------ | ---------------------------------- |
-| GET    | /calendar              | Retrieves current date or date range for calendar    | -      | res.render('calendar/index')       |
-| GET    | /log-types             | Retrieves list of available log types                | -      | res.render('log-types/index')      |
-| POST   | /gratitude-logs        | Creates a new gratitude log entry for selected date  | create | res.redirect('/whereverYouWant')   |
-| GET    | /gratitude-logs/:date  | Retrieves gratitude log entry for specific date      | show   | res.render('gratitude-logs/show')  |
-| PUT    | /gratitude-logs/:date  | Updates gratitude log entry for specific date        | update | res.redirect('/whereverYouWant')   |
-| DELETE | /gratitude-logs/:date  | Deletes gratitude log entry for specific date        | delete | res.redirect('/whereverYouWant')   |
-| POST   | /meditation-logs       | Creates a new meditation log entry for selected date | create | res.redirect('/whereverYouWant')   |
-| GET    | /meditation-logs/:date | Retrieves meditation log entry for specific date     | show   | res.render('meditation-logs/show') |
-| PUT    | /meditation-logs/:date | Updates meditation log entry for specific date       | update | res.redirect('/whereverYouWant')   |
-| DELETE | /meditation-logs/:date | Deletes meditation log entry for specific date       | delete | res.redirect('/whereverYouWant')   |
-| GET    | /home                  | Retrieves the home screen with options               | -      | res.render('home/index')           |
+| Method | Route                        | Description                                             | Action | Redirect/Response                  |
+|--------|------------------------------|---------------------------------------------------------|--------|-----------------------------------|
+| GET    | /home/log-options            | View a button on the home screen to navigate to log options | -      | res.render('log-options/index')   |
+| GET    | /log-options                 | Choose between meditation or gratitude to view or create entries | -      | res.render('log-options/index')   |
+| POST   | /gratitude-entries           | Write gratitude in a text box to log for the day         | create | res.redirect('/whereverYouWant')   |
+| GET    | /gratitude-entries/:date     | View gratitude entry for a specific day                   | show   | res.render('gratitude-entries/show') |
+| PUT    | /gratitude-entries/:date     | Edit gratitude entry for a specific day                   | update | res.redirect('/whereverYouWant')   |
+| DELETE | /gratitude-entries/:date     | Delete gratitude entry for a specific day                 | delete | res.redirect('/whereverYouWant')   |
+| POST   | /meditation-entries          | Write start, end, and notes of a meditation session to log for the day | create | res.redirect('/whereverYouWant')   |
+| GET    | /meditation-entries/:date    | View meditation entry for a specific day                  | show   | res.render('meditation-entries/show') |
+| PUT    | /meditation-entries/:date    | Edit meditation entry for a specific day                  | update | res.redirect('/whereverYouWant')   |
+| DELETE | /meditation-entries/:date    | Delete meditation entry for a specific day                | delete | res.redirect('/whereverYouWant')   |
+| GET    | /home                        | View a button for the home screen on every page           | -      | res.render('home/index')           |          |
+
