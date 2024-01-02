@@ -4,7 +4,7 @@
 
 An app that allows a user to log their daily meditation and gratude journals. The app allows them to view, edit, and delete post from previous dates.
 
-## ERD 
+## ERD
 
 ![image](photos/lilaERD.jpeg)
 
@@ -22,12 +22,9 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 
 ![image](photos/entriesandviewgratitude.png)
 
-
 **Create Gratitude View**
 
 ![image](photos/creategratentry.png)
-
-
 
 **Edit Gratitude View**
 
@@ -37,7 +34,6 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 **Return to Create Gratitude Entries View**
 
 ![image](photos/entriesandviewgratitude.png)
-
 
 **Return to Option View**
 
@@ -87,17 +83,16 @@ An app that allows a user to log their daily meditation and gratude journals. Th
 - As a user, I want to be able to create a sleep entry, so that I can track my sleeping patterns. (view, edit, and delete them)
 - As a user, I want to be able to create a acts of service entry, so that I can track my them. (view, edit, and delete them and an optional random act service will be generated on the page for that day)
 
-| Method | Route                        | Description                                             | Action | Redirect/Response                  |
-|--------|------------------------------|---------------------------------------------------------|--------|-----------------------------------|
-| GET    | /home/log-options            | View a button on the home screen to navigate to log options | -      | res.render('log-options/index')   |
-| GET    | /log-options                 | Choose between meditation or gratitude to view or create entries | -      | res.render('log-options/index')   |
-| POST   | /gratitude-entries           | Write gratitude in a text box to log for the day         | create | res.redirect('/whereverYouWant')   |
-| GET    | /gratitude-entries/:date     | View gratitude entry for a specific day                   | show   | res.render('gratitude-entries/show') |
-| PUT    | /gratitude-entries/:date     | Edit gratitude entry for a specific day                   | update | res.redirect('/whereverYouWant')   |
-| DELETE | /gratitude-entries/:date     | Delete gratitude entry for a specific day                 | delete | res.redirect('/whereverYouWant')   |
-| POST   | /meditation-entries          | Write start, end, and notes of a meditation session to log for the day | create | res.redirect('/whereverYouWant')   |
-| GET    | /meditation-entries/:date    | View meditation entry for a specific day                  | show   | res.render('meditation-entries/show') |
-| PUT    | /meditation-entries/:date    | Edit meditation entry for a specific day                  | update | res.redirect('/whereverYouWant')   |
-| DELETE | /meditation-entries/:date    | Delete meditation entry for a specific day                | delete | res.redirect('/whereverYouWant')   |
-| GET    | /home                        | View a button for the home screen on every page           | -      | res.render('home/index')           |          |
-
+| Method | Route                     | Description                                                            | Action | Redirect/Response                     |
+| ------ | ------------------------- | ---------------------------------------------------------------------- | ------ | ------------------------------------- | --- |
+| GET    | /home/log-options         | View a button on the home screen to navigate to log options            | -      | res.render('log-options/index')       |
+| GET    | /log-options              | Choose between meditation or gratitude to view or create entries       | -      | res.render('log-options/index')       |
+| POST   | /gratitude-entries        | Write gratitude in a text box to log for the day                       | create | res.redirect('/whereverYouWant')      |
+| GET    | /gratitude-entries/:date  | View gratitude entry for a specific day                                | show   | res.render('gratitude-entries/show')  |
+| PUT    | /gratitude-entries/:date  | Edit gratitude entry for a specific day                                | update | res.redirect('/whereverYouWant')      |
+| DELETE | /gratitude-entries/:date  | Delete gratitude entry for a specific day                              | delete | res.redirect('/whereverYouWant')      |
+| POST   | /meditation-entries       | Write start, end, and notes of a meditation session to log for the day | create | res.redirect('/whereverYouWant')      |
+| GET    | /meditation-entries/:date | View meditation entry for a specific day                               | show   | res.render('meditation-entries/show') |
+| PUT    | /meditation-entries/:date | Edit meditation entry for a specific day                               | update | res.redirect('/whereverYouWant')      |
+| DELETE | /meditation-entries/:date | Delete meditation entry for a specific day                             | delete | res.redirect('/whereverYouWant')      |
+| GET    | /home                     | View a button for the home screen on every page                        | -      | res.render('home/index')              |     |
