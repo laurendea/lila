@@ -1,21 +1,21 @@
-import 'dotenv/config.js'
-import './config/database.js'
+import 'dotenv/config.js';
+import './config/database.js';
 
+import cors from 'cors';
+import express from 'express';
 
-import cors from 'cors'
-import express from 'express'
+import router from './routes/routes.js';
 
-import router from './routes/routes.js'
-const app = express()
-const PORT = process.env.PORT || 7008
+const app = express();
+const PORT = process.env.PORT || 7008;
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
+app.use(express.static('views'));
 
-app.use('/', router)
-
+app.use('/lila', router);
 
 app.listen(PORT, () => {
-    console.log('lila is running on port 7008')
-})
+  console.log('lila is running on port 7008');
+});
