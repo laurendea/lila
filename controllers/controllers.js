@@ -23,6 +23,7 @@ export const updateGratitudeEntry = async (req, res) => {
   try {
     const { date } = req.params;
     const { newDate, entry, photo } = req.body;
+    console.log(req.body)
 
     // Find the existing entry by date
     const existingEntry = await GratitudeEntry.findOne({ date });
@@ -40,6 +41,7 @@ export const updateGratitudeEntry = async (req, res) => {
     await existingEntry.save();
 
     res.json(existingEntry);
+    console.log(existingEntry)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -79,6 +81,16 @@ export const getGratitudeEntries = async (req, res) => {
 ///////////// meditation controllers /////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
+export const getMeditationEntries = async (req, res) => {
+  try {
+      const meditationEntries = await MeditationEntry.find();
+      res.json(meditationEntries);
+  } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
+
 
 export const deleteMeditationEntry = async (req, res) => {
   try {
@@ -109,15 +121,6 @@ export const createMeditationEntry = async (req, res) => {
   }
 };
 
-export const getMeditationEntries = async (req, res) => {
-  try {
-      const meditationEntries = await MeditationEntry.find();
-      res.json(meditationEntries);
-  } catch (error) {
-      res.status(500).json({ message: 'Internal Server Error' });
-  }
-};
-
 export const updateMeditationEntry = async (req, res) => {
   try {
     const { date } = req.params;
@@ -130,18 +133,23 @@ export const updateMeditationEntry = async (req, res) => {
       return res.status(404).json({ message: 'Meditation entry not found' });
     }
 
-    // Update the entry
-    existingEntry.date = newDate || existingEntry.date; // Update the date if newDate is provided
-    existingEntry.duration = duration;
-    existingEntry.notes = notes;
+    // Update the entry fields
+    existingEntry.date = newDate || existingEntry.date;
+    existingEntry.duration = duration || existingEntry.duration;
+    existingEntry.notes = notes || existingEntry.notes;
 
     // Save the updated entry
     await existingEntry.save();
 
     res.json(existingEntry);
+    console.log(existingEntry)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+
+
+
 

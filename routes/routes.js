@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, deleteMeditationEntry, getGratitudeEntries, createGratitudeEntry, updateGratitudeEntry, deleteGratitudeEntry } from '../controllers/Controllers.js';
+import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, deleteMeditationEntry, getGratitudeEntries, createGratitudeEntry, updateGratitudeEntry, deleteGratitudeEntry } from '../controllers/controllers.js';
 
 //////////////////////////////////////////////////////////////////////
 ///////////// gratitude routes ///////////////////////////////////////
