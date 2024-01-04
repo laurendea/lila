@@ -1,133 +1,104 @@
 import GratitudeEntry from '../models/gratitude.js';
 import MeditationEntry from '../models/meditation.js';
 
-const viewLogOptionsButton = (req, res) => {
-  res.render('log-options');
-};
 
-const chooseLogOption = (req, res) => {
-  res.render('log-options');
-};
+///////////////////////////////////////////////////////////////////////////
+///////////// gratitude controllers ///////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
-const createGratitudeEntry = async (req, res) => {
+
+export const createGratitudeEntry = async (req, res) => {
   try {
-    const { content } = req.body;
-    const newGratitudeEntry = await GratitudeEntry.create({ content });
-    res.redirect(`/gratitude-entries/${newGratitudeEntry.date}`);
+    const { date, entry, photo } = req.body;
+    const newGratitudeEntry = new GratitudeEntry({ date, entry, photo });
+    await newGratitudeEntry.save();
+    res.status(201).json(newGratitudeEntry);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-const viewGratitudeEntry = (req, res) => {
-  res.render('gratitude-entry'); 
-};
 
-const editGratitudeEntry = async (req, res) => {
+export const updateGratitudeEntry = async (req, res) => {
   try {
-    const id = req.params.date;
-    const updateData = req.body;
-    const updatedGratitudeEntry = await GratitudeEntry.findByIdAndUpdate(id, updateData, { new: true });
+    const { date } = req.params;
+    const { newDate, entry, photo } = req.body;
 
-    if (!updatedGratitudeEntry) {
-      return res.status(404).json({ error: 'Gratitude entry not found' });
+    // Find the existing entry by date
+    const existingEntry = await GratitudeEntry.findOne({ date });
+
+    if (!existingEntry) {
+      return res.status(404).json({ message: 'Gratitude entry not found' });
     }
 
-    res.redirect(`/gratitude-entries/${updatedGratitudeEntry.date}`);
+    // Update the entry
+    existingEntry.date = newDate || existingEntry.date; // Update the date if newDate is provided
+    existingEntry.entry = entry || existingEntry.entry;
+    existingEntry.photo = photo || existingEntry.photo;
+
+    // Save the updated entry
+    await existingEntry.save();
+
+    res.json(existingEntry);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-const deleteGratitudeEntry = async (req, res) => {
-  try {
-    const id = req.params.date;
-    const deletedGratitudeEntry = await GratitudeEntry.findByIdAndDelete(id);
-
-    if (!deletedGratitudeEntry) {
-      return res.status(404).json({ error: 'Gratitude entry not found' });
-    }
-
-    res.redirect('/gratitude-entries');
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-//const createMeditationEntry = async (req, res) => {
- // try {
-   // const { start, end, notes } = req.body;
-   // const newMeditationEntry = await MeditationEntry.create({ start, end, notes });
-   // res.redirect(`/meditation-entries/${newMeditationEntry.date}`);
- // } catch (error) {
-  //  console.error(error);
-  //  res.status(500).json({ error: 'Internal Server Error' });
- // }
-//};
-
-const viewAllMeditationEntries = async (req, res) => {
-  try {
-    const allMeditationEntries = await MeditationEntry.find();
-    res.render('meditation-entries-all', { entries: allMeditationEntries });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-const viewMeditationEntry = async (req, res) => {
+export const deleteGratitudeEntry = async (req, res) => {
   try {
     const date = req.params.date;
-    const meditationEntry = await MeditationEntry.findOne({ date });
 
-    if (!meditationEntry) {
-      return res.status(404).json({ error: 'Meditation entry not found' });
+    // Find the entry by date and remove it
+    const deletedGratitudeEntry = await GratitudeEntry.findOneAndDelete({ date });
+
+    if (!deletedGratitudeEntry) {
+      return res.status(404).json({ message: 'Gratitude entry not found' });
     }
 
-    res.render('meditation-entry', { entry: meditationEntry });
+    res.json({ message: 'Gratitude entry deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-const editMeditationEntry = async (req, res) => {
+
+export const getGratitudeEntries = async (req, res) => {
   try {
-    const id = req.params.date;
-    const updateData = req.body;
-    const updatedMeditationEntry = await MeditationEntry.findByIdAndUpdate(id, updateData, { new: true });
-
-    if (!updatedMeditationEntry) {
-      return res.status(404).json({ error: 'Meditation entry not found' });
-    }
-
-    res.redirect(`/meditation-entries/${updatedMeditationEntry.date}`);
+    const gratitudeEntries = await GratitudeEntry.find();
+    res.json(gratitudeEntries);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-const deleteMeditationEntry = async (req, res) => {
+
+//////////////////////////////////////////////////////////////////////////////
+///////////// meditation controllers /////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+
+export const deleteMeditationEntry = async (req, res) => {
   try {
-    const id = req.params.date;
-    const deletedMeditationEntry = await MeditationEntry.findByIdAndDelete(id);
+    const date = req.params.date;
+
+    // Find the entry by date and remove it
+    const deletedMeditationEntry = await MeditationEntry.findOneAndDelete({ date });
 
     if (!deletedMeditationEntry) {
-      return res.status(404).json({ error: 'Meditation entry not found' });
+      return res.status(404).json({ message: 'Meditation entry not found' });
     }
 
-    res.redirect('/meditation-entries');
+    res.json({ message: 'Meditation entry deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
- const createMeditationEntry = async (req, res) => {
+export const createMeditationEntry = async (req, res) => {
   try {
       const { date, duration, notes } = req.body;
       const newMeditationEntry = new MeditationEntry({ date, duration, notes });
@@ -149,40 +120,28 @@ export const getMeditationEntries = async (req, res) => {
 
 export const updateMeditationEntry = async (req, res) => {
   try {
-      const { id } = req.params;
-      const { date, duration, notes } = req.body;
+    const { date } = req.params;
+    const { newDate, duration, notes } = req.body;
 
-      // Find the existing entry by ID
-      const existingEntry = await Meditation.findById(id);
+    // Find the existing entry by date
+    const existingEntry = await MeditationEntry.findOne({ date });
 
-      if (!existingEntry) {
-          return res.status(404).json({ message: 'Meditation entry not found' });
-      }
+    if (!existingEntry) {
+      return res.status(404).json({ message: 'Meditation entry not found' });
+    }
 
-      // Update the entry
-      existingEntry.date = date;
-      existingEntry.duration = duration;
-      existingEntry.notes = notes;
+    // Update the entry
+    existingEntry.date = newDate || existingEntry.date; // Update the date if newDate is provided
+    existingEntry.duration = duration;
+    existingEntry.notes = notes;
 
-      // Save the updated entry
-      await existingEntry.save();
+    // Save the updated entry
+    await existingEntry.save();
 
-      res.json(existingEntry);
+    res.json(existingEntry);
   } catch (error) {
-      res.status(500).json({ message: 'Internal Server Error' });
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
-export {
-  viewLogOptionsButton,
-  chooseLogOption,
-  createGratitudeEntry,
-  viewGratitudeEntry,
-  editGratitudeEntry,
-  deleteGratitudeEntry,
-  createMeditationEntry,
-  viewAllMeditationEntries,
-  viewMeditationEntry,
-  editMeditationEntry,
-  deleteMeditationEntry
-};
