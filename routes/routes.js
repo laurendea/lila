@@ -1,5 +1,8 @@
 import express from 'express';
+import multer from 'multer';
+
 const router = express.Router();
+const upload = multer({ dest: 'uploads/' });
 
 import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, deleteMeditationEntry, getGratitudeEntries, createGratitudeEntry, updateGratitudeEntry, deleteGratitudeEntry } from '../controllers/controllers.js';
 
@@ -11,7 +14,7 @@ import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, del
 router.get('/gratitude-entries', getGratitudeEntries);
 
 // Route for creating a new meditation entry
-router.post('/create-gratitude-entry', createGratitudeEntry);
+router.post('/create-gratitude-entry', upload.single('photo'), createGratitudeEntry);
 
 // Route for updating a meditation entry by date
 router.put('/update-gratitude-entry/:date', updateGratitudeEntry);
