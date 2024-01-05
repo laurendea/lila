@@ -19,7 +19,7 @@ export const createGratitudeEntry = async (req, res) => {
     if (req.files && req.files.photo) {
       // Assuming 'photo' is the name of the field in your form
       const photoFile = req.files.photo;
-      const uploadPath = `uploads/${Date.now()}_${photoFile.name}`;
+      const uploadPath = __dirname + `uploads/${Date.now()}_${photoFile.name}`;
 
       // Move the file to the desired upload path
       await photoFile.mv(uploadPath);
