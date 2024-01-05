@@ -9,30 +9,30 @@ import MeditationEntry from '../models/meditation.js';
 
 export const createGratitudeEntry = async (req, res) => {
   try {
-    console.log('req.body:', req.body);
+      console.log('req.body:', req.body);
+      const { date, entry } = req.body;
 
-    const { date, entry } = req.body;
+      // Check if a file is included in the request
+      let photoPath = '';
 
-    // Check if a file is included in the request
-    let photoPath = '';
+      if (req.file) {
+          const photoFile = req.file;
+          const uploadPath = `uploads/${Date.now()}_${photoFile.originalname}`;
 
-    if (req.file) {
-      const photoFile = req.file;
-      const uploadPath = `uploads/${Date.now()}_${photoFile.originalname}`;
+          // Move the file to the desired upload path
+          await photoFile.mv(uploadPath);
+          photoPath = uploadPath;
+      }
 
-      // Move the file to the desired upload path
-      await photoFile.mv(uploadPath);
-      photoPath = uploadPath;
-    }
-
-    const newGratitudeEntry = new GratitudeEntry({ date, entry, photo: photoPath });
-    await newGratitudeEntry.save();
-    res.status(201).json(newGratitudeEntry);
+      const newGratitudeEntry = new GratitudeEntry({ date, entry, photo: photoPath });
+      await newGratitudeEntry.save();
+      res.status(201).json(newGratitudeEntry);
   } catch (error) {
-    console.error('Error in createGratitudeEntry:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error in createGratitudeEntry:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 
