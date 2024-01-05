@@ -1,6 +1,20 @@
 import express from 'express';
 const router = express.Router();
-import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, deleteMeditationEntry, getGratitudeEntries, createGratitudeEntry, updateGratitudeEntry, deleteGratitudeEntry } from '../controllers/controllers.js';
+import bodyParser from 'body-parser';
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+
+import {
+  createMeditationEntry,
+  getMeditationEntries,
+  updateMeditationEntry,
+  deleteMeditationEntry,
+  getGratitudeEntries,
+  createGratitudeEntry,
+  updateGratitudeEntry,
+  deleteGratitudeEntry,
+} from '../controllers/controllers.js';
 
 //////////////////////////////////////////////////////////////////////
 ///////////// gratitude routes ///////////////////////////////////////
@@ -9,15 +23,14 @@ import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, del
 // Route for fetching all gratitude entries
 router.get('/gratitude-entries', getGratitudeEntries);
 
-// Route for creating a new meditation entry
+// Route for creating a new gratitude entry
 router.post('/create-gratitude-entry', createGratitudeEntry);
 
-// Route for updating a meditation entry by date
+// Route for updating a gratitude entry by date
 router.put('/update-gratitude-entry/:date', updateGratitudeEntry);
 
-// Route for deleting a meditation entry by date
+// Route for deleting a gratitude entry by date
 router.delete('/delete-gratitude-entry/:date', deleteGratitudeEntry);
-
 
 //////////////////////////////////////////////////////////////////////
 ///////////// meditation routes //////////////////////////////////////
@@ -34,7 +47,5 @@ router.put('/update-meditation-entry/:date', updateMeditationEntry);
 
 // Route for deleting a meditation entry by date
 router.delete('/delete-meditation-entry/:date', deleteMeditationEntry);
-
-
 
 export default router;

@@ -9,14 +9,20 @@ import MeditationEntry from '../models/meditation.js';
 
 export const createGratitudeEntry = async (req, res) => {
   try {
-    const { date, entry, photo } = req.body;
-    const newGratitudeEntry = new GratitudeEntry({ date, entry, photo });
-    await newGratitudeEntry.save();
-    res.status(201).json(newGratitudeEntry);
+      console.log('req.body:', req.body);
+
+      // Handle both JSON and FormData
+      const { date, entry } = req.body || req.body.formData;
+
+      const newGratitudeEntry = new GratitudeEntry({ date, entry });
+      await newGratitudeEntry.save();
+      res.status(201).json(newGratitudeEntry);
   } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error in createGratitudeEntry:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 export const updateGratitudeEntry = async (req, res) => {

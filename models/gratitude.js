@@ -1,14 +1,12 @@
-import mongoose from 'mongoose' 
+import mongoose from 'mongoose';
 
 const gratitudeEntrySchema = mongoose.Schema({
-    // TODO: Define the schema for a gratitude
-    date: {type: String},
-    entry: {type: String},
-    photo: {type: String}
-}) 
+    date: { type: String },
+    entry: { type: String },
+});
 
-const GratitudeEntry = mongoose.model('GratitudeEntry', gratitudeEntrySchema) 
+const GratitudeEntry = mongoose.model('GratitudeEntry', gratitudeEntrySchema);
 
-export default GratitudeEntry
+export default GratitudeEntry;
 
 
