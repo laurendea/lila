@@ -41,7 +41,6 @@ export const updateGratitudeEntry = async (req, res) => {
     // Update the entry
     existingEntry.date = newDate || existingEntry.date; // Update the date if newDate is provided
     existingEntry.entry = entry || existingEntry.entry;
-    existingEntry.photo = photo || existingEntry.photo;
 
     // Save the updated entry
     await existingEntry.save();
