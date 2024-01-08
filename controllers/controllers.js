@@ -11,7 +11,7 @@ export const createGratitudeEntry = async (req, res) => {
   try {
       console.log('req.body:', req.body);
 
-      // Handle both JSON and FormData
+      
       const { date, entry } = req.body || req.body.formData;
 
       const newGratitudeEntry = new GratitudeEntry({ date, entry });
