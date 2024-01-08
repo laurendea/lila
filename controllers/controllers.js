@@ -9,29 +9,31 @@ import MeditationEntry from '../models/meditation.js';
 
 export const createGratitudeEntry = async (req, res) => {
   try {
-      console.log('req.body:', req.body);
-      const { date, entry } = req.body;
+    const { date, entry } = req.body;
 
-      // Check if a file is included in the request
-      let photoPath = '';
+    // Check if a file is included in the request
+    let photoPath = '';
 
-      if (req.file) {
-          const photoFile = req.file;
-          const uploadPath = `uploads/${Date.now()}_${photoFile.originalname}`;
+    if (req.file) {
+      const photoFile = req.file;
 
-          // Move the file to the desired upload path
-          await photoFile.mv(uploadPath);
-          photoPath = uploadPath;
-      }
+      // Move the file to the desired upload path using multer's mv method
+      const uploadPath = `upload/images/${Date.now()}_${photoFile.originalname}`;
+      await photoFile.mv(uploadPath);
 
-      const newGratitudeEntry = new GratitudeEntry({ date, entry, photo: photoPath });
-      await newGratitudeEntry.save();
-      res.status(201).json(newGratitudeEntry);
+      photoPath = uploadPath;
+    }
+
+    const newGratitudeEntry = new GratitudeEntry({ date, entry, photo: photoPath });
+    await newGratitudeEntry.save();
+
+    res.status(201).json(newGratitudeEntry);
   } catch (error) {
-      console.error('Error in createGratitudeEntry:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error in createGratitudeEntry:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 
@@ -39,8 +41,7 @@ export const createGratitudeEntry = async (req, res) => {
 export const updateGratitudeEntry = async (req, res) => {
   try {
     const { date } = req.params;
-    const { newDate, entry, photo } = req.body;
-    console.log(req.body)
+    const { newDate, entry } = req.body;
 
     // Find the existing entry by date
     const existingEntry = await GratitudeEntry.findOne({ date });
@@ -49,17 +50,29 @@ export const updateGratitudeEntry = async (req, res) => {
       return res.status(404).json({ message: 'Gratitude entry not found' });
     }
 
-    // Update the entry
-    existingEntry.date = newDate || existingEntry.date; // Update the date if newDate is provided
+    // Check if a new file is included in the request
+    let newPhotoPath = existingEntry.photo;
+
+    if (req.file) {
+      const newPhotoFile = req.file;
+      const uploadPath = `upload/images/${Date.now()}_${newPhotoFile.originalname}`;
+
+      // Move the file to the desired upload path
+      await newPhotoFile.mv(uploadPath);
+      newPhotoPath = uploadPath;
+    }
+
+    // Update the entry fields
+    existingEntry.date = newDate || existingEntry.date;
     existingEntry.entry = entry || existingEntry.entry;
+    existingEntry.photo = newPhotoPath;
 
     // Save the updated entry
     await existingEntry.save();
 
     res.json(existingEntry);
-    console.log(existingEntry)
   } catch (error) {
-    console.error(error);
+    console.error('Error in updateGratitudeEntry:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

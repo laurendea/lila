@@ -8,34 +8,57 @@ import multer from 'multer';
 import path from 'path';
 import router from './routes/routes.js';
 
+
 // Create Express app
 const app = express();
 const PORT = process.env.PORT || 7008;
 
-// Multer storage configuration
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Destination folder for uploaded files
+  destination: './upload/images',
+  filename: (req, file, cb) => {
+      return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '_' + file.originalname); // Unique filename
+})
+
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB
   },
-});
+})
 
-const upload = multer({ storage: storage });
 
-// CORS configuration
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200,
-};
+app.use('/photo', express.static('upload/images'));
+app.post("/lila/create-gratitude-entry", upload.single('photo'), (req, res) => {
 
-app.use(express.json());
+  res.json({
+      success: 1,
+      photo_url: `http://localhost:7008/photo/${req.file.filename}`
+  })
+})
+
+function errHandler(err, req, res, next) {
+  if (err instanceof multer.MulterError) {
+      res.json({
+          success: 0,
+          message: err.message
+      })
+  }
+}
+app.use(errHandler);
+
+// Enable CORS for all routes
 app.use(cors());
 
+// Parse JSON bodies
+app.use(express.json());
 
-app.use(express.static('views'));
-app.use('/lila', cors(corsOptions), router);
+// Serve static files from 'views' directory
+//app.use(express.static('views'));
+
+// Define routes
+app.use('/lila', router);
 
 // Handle 500 errors
 app.use((err, req, res, next) => {
@@ -45,6 +68,7 @@ app.use((err, req, res, next) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log('lila is running on port 7008');
+  console.log(`lila is running on port ${PORT}`);
 });
+
 
