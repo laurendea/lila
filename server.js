@@ -49,7 +49,7 @@ function errHandler(err, req, res, next) {
 app.use(errHandler);
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({ origin: '*' }));
 
 // Parse JSON bodies
 app.use(express.json());
