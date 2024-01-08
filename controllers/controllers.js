@@ -14,14 +14,15 @@ export const createGratitudeEntry = async (req, res) => {
     // Check if a file is included in the request
     let photoPath = '';
 
-    if (req.file) {
+    if (req.file && req.file.filename && req.file.path) {
       const photoFile = req.file;
-
-      // Move the file to the desired upload path using multer's mv method
       const uploadPath = `upload/images/${Date.now()}_${photoFile.originalname}`;
-      await photoFile.mv(uploadPath);
 
+      // Move the file to the desired upload path
+      await require('fs').promises.rename(photoFile.path, uploadPath);
       photoPath = uploadPath;
+    } else {
+      throw new Error('Invalid file data');
     }
 
     const newGratitudeEntry = new GratitudeEntry({ date, entry, photo: photoPath });
@@ -33,6 +34,7 @@ export const createGratitudeEntry = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 

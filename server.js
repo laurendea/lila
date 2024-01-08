@@ -27,7 +27,8 @@ const upload = multer({
 });
 
 // Enable CORS for all routes
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'https://lila-frontend.netlify.app' }));
+
 
 // Define routes
 app.use('/lila', router);
