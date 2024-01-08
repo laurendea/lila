@@ -4,7 +4,7 @@ import path from 'path';
 
 const router = express.Router();
 const upload = multer({ dest: 'upload/images' });
-const fs = require('fs').promises;
+import { promises as fsPromises } from 'fs';
 
 import { createMeditationEntry, getMeditationEntries, updateMeditationEntry, deleteMeditationEntry, getGratitudeEntries, createGratitudeEntry, updateGratitudeEntry, deleteGratitudeEntry } from '../controllers/controllers.js';
 
