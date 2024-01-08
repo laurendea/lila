@@ -29,7 +29,7 @@ const upload = multer({
 })
 
 
-app.use('/photo', express.static('upload/images'));
+//app.use('/photo', express.static('upload/images'));
 app.post("/lila/create-gratitude-entry", upload.single('photo'), (req, res) => {
 
   res.json({
@@ -58,7 +58,15 @@ app.use(express.json());
 //app.use(express.static('views'));
 
 // Define routes
-app.use('/lila', router);
+
+const corsOptions = {
+  origin: 'http://127.0.0.1:5501', // Adjust this to the actual origin of your frontend
+};
+
+app.use('/lila', cors(corsOptions), router);
+app.use('/photo', cors(corsOptions), express.static('upload/images'));
+
+//app.use('/lila', router);
 
 // Handle 500 errors
 app.use((err, req, res, next) => {
